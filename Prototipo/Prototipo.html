@@ -1,719 +1,560 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sistema de Gestión de Calidad</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="Prototipo.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Sistema de Gestión de Calidad</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="Prototipo.css">
 </head>
 <body>
-    
-    <div class="container-fluid">
-        <div class="row">
-            <!-- Sidebar -->
-            <div class="col-md-2 sidebar">
-                <h3 class="text-center mb-4">Sistema de Gestión</h3>
-                <ul class="nav flex-column">
-                    <li class="nav-item">
-                        <a class="nav-link active" href="#" data-section="dashboard">
-                            <i class="fas fa-tachometer-alt"></i> Dashboard
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#" data-section="documentos">
-                            <i class="fas fa-file-alt"></i> Control de Documentos
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#" data-section="auditorias">
-                            <i class="fas fa-clipboard-check"></i> Auditorías Internas
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#" data-section="acciones">
-                            <i class="fas fa-tasks"></i> Acciones Correctivas
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#" data-section="indicadores">
-                            <i class="fas fa-chart-line"></i> Indicadores
-                        </a>
-                    </li>
-                </ul>
-            </div>
+  <div class="container-fluid">
+    <div class="row">
+      <!-- Sidebar -->
+      <div class="col-md-2 sidebar">
+        <h3 class="text-center mb-4">Sistema de Gestión</h3>
+        <ul class="nav flex-column">
+          <li class="nav-item">
+            <a class="nav-link active" href="#" data-section="dashboard">
+              <i class="fas fa-tachometer-alt"></i> Dashboard
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#" data-section="documentos">
+              <i class="fas fa-file-alt"></i> Control de Documentos
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#" data-section="auditorias">
+              <i class="fas fa-clipboard-check"></i> Auditorías Internas
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#" data-section="acciones">
+              <i class="fas fa-tasks"></i> Acciones Correctivas
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#" data-section="indicadores">
+              <i class="fas fa-chart-line"></i> Indicadores
+            </a>
+          </li>
+        </ul>
+      </div>
 
-            <!-- Main Content -->
-            <div class="col-md-10 main-content">
-                <!-- Header -->
-                <div class="header">
-                    <h2 id="section-title">Dashboard</h2>
-                </div>
-
-                <!-- Dashboard Section -->
-                <div id="dashboard" class="section active">
-                    <div class="row">
-                        <div class="col-md-3">
-                            <div class="card stat-card">
-                                <i class="fas fa-file-alt"></i>
-                                <h2>128</h2>
-                                <p>Documentos</p>
-                            </div>
-                        </div>
-                        <div class="col-md-3">
-                            <div class="card stat-card">
-                                <i class="fas fa-clipboard-check"></i>
-                                <h2>24</h2>
-                                <p>Auditorías</p>
-                            </div>
-                        </div>
-                        <div class="col-md-3">
-                            <div class="card stat-card">
-                                <i class="fas fa-tasks"></i>
-                                <h2>42</h2>
-                                <p>Acciones Correctivas</p>
-                            </div>
-                        </div>
-                        <div class="col-md-3">
-                            <div class="card stat-card">
-                                <i class="fas fa-chart-line"></i>
-                                <h2>15</h2>
-                                <p>Indicadores</p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="row">
-                        <div class="col-md-6">
-                            <div class="card">
-                                <div class="card-header">
-                                    <h5 class="mb-0">Auditorías Recientes</h5>
-                                </div>
-                                <div class="card-body">
-                                    <div class="table-responsive">
-                                        <table class="table table-hover">
-                                            <thead>
-                                                <tr>
-                                                    <th>Código</th>
-                                                    <th>Proceso</th>
-                                                    <th>Fecha</th>
-                                                    <th>Estado</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <tr>
-                                                    <td>AU-2023-001</td>
-                                                    <td>Gestión de Calidad</td>
-                                                    <td>15/08/2023</td>
-                                                    <td><span class="badge badge-success">Completada</span></td>
-                                                </tr>
-                                                <tr>
-                                                    <td>AU-2023-002</td>
-                                                    <td>Producción</td>
-                                                    <td>20/08/2023</td>
-                                                    <td><span class="badge badge-warning">En Progreso</span></td>
-                                                </tr>
-                                                <tr>
-                                                    <td>AU-2023-003</td>
-                                                    <td>Almacén</td>
-                                                    <td>25/08/2023</td>
-                                                    <td><span class="badge badge-danger">Pendiente</span></td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="card">
-                                <div class="card-header">
-                                    <h5 class="mb-0">Acciones Correctivas Pendientes</h5>
-                                </div>
-                                <div class="card-body">
-                                    <div class="table-responsive">
-                                        <table class="table table-hover">
-                                            <thead>
-                                                <tr>
-                                                    <th>Código</th>
-                                                    <th>Descripción</th>
-                                                    <th>Responsable</th>
-                                                    <th>Plazo</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <tr>
-                                                    <td>AC-2023-015</td>
-                                                    <td>Falta de controles en proceso</td>
-                                                    <td>Juan Pérez</td>
-                                                    <td>30/08/2023</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>AC-2023-016</td>
-                                                    <td>Documentación desactualizada</td>
-                                                    <td>María López</td>
-                                                    <td>05/09/2023</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>AC-2023-017</td>
-                                                    <td>Incumplimiento de protocolos</td>
-                                                    <td>Carlos Rodríguez</td>
-                                                    <td>10/09/2023</td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Control de Documentos Section -->
-                <div id="documentos" class="section">
-                    <div class="card">
-                        <div class="card-header d-flex justify-content-between align-items-center">
-                            <h5 class="mb-0">Control de Documentos</h5>
-                            <button class="btn btn-primary btn-sm">
-                                <i class="fas fa-plus"></i> Nuevo Documento
-                            </button>
-                        </div>
-                        <div class="card-body">
-                            <div class="table-responsive">
-                                <table class="table table-hover">
-                                    <thead>
-                                        <tr>
-                                            <th>Código</th>
-                                            <th>Nombre del Documento</th>
-                                            <th>Versión</th>
-                                            <th>Fecha</th>
-                                            <th>Responsable</th>
-                                            <th>Estado</th>
-                                            <th>Acciones</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td>DOC-QS-001</td>
-                                            <td>Manual de Calidad</td>
-                                            <td>v3.2</td>
-                                            <td>10/07/2023</td>
-                                            <td>Ana García</td>
-                                            <td><span class="badge badge-success">Aprobado</span></td>
-                                            <td>
-                                                <button class="btn btn-sm btn-info"><i class="fas fa-eye"></i></button>
-                                                <button class="btn btn-sm btn-warning"><i class="fas fa-edit"></i></button>
-                                                <button class="btn btn-sm btn-danger"><i class="fas fa-trash"></i></button>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>DOC-PR-015</td>
-                                            <td>Procedimiento de Producción</td>
-                                            <td>v2.1</td>
-                                            <td>15/07/2023</td>
-                                            <td>Roberto Sánchez</td>
-                                            <td><span class="badge badge-success">Aprobado</span></td>
-                                            <td>
-                                                <button class="btn btn-sm btn-info"><i class="fas fa-eye"></i></button>
-                                                <button class="btn btn-sm btn-warning"><i class="fas fa-edit"></i></button>
-                                                <button class="btn btn-sm btn-danger"><i class="fas fa-trash"></i></button>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>DOC-AU-003</td>
-                                            <td>Protocolo de Auditoría</td>
-                                            <td>v1.5</td>
-                                            <td>22/07/2023</td>
-                                            <td>Laura Martínez</td>
-                                            <td><span class="badge badge-warning">En Revisión</span></td>
-                                            <td>
-                                                <button class="btn btn-sm btn-info"><i class="fas fa-eye"></i></button>
-                                                <button class="btn btn-sm btn-warning"><i class="fas fa-edit"></i></button>
-                                                <button class="btn btn-sm btn-danger"><i class="fas fa-trash"></i></button>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>DOC-AC-008</td>
-                                            <td>Formato de Acciones Correctivas</td>
-                                            <td>v2.0</td>
-                                            <td>30/07/2023</td>
-                                            <td>Miguel Ángel Díaz</td>
-                                            <td><span class="badge badge-danger">Obsoleto</span></td>
-                                            <td>
-                                                <button class="btn btn-sm btn-info"><i class="fas fa-eye"></i></button>
-                                                <button class="btn btn-sm btn-warning"><i class="fas fa-edit"></i></button>
-                                                <button class="btn btn-sm btn-danger"><i class="fas fa-trash"></i></button>
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Auditorías Internas Section -->
-                <div id="auditorias" class="section">
-                    <div class="card">
-                        <div class="card-header d-flex justify-content-between align-items-center">
-                            <h5 class="mb-0">Auditorías Internas</h5>
-                            <div>
-                                <button class="btn btn-success btn-sm me-2">
-                                    <i class="fas fa-file-excel"></i> Exportar Excel
-                                </button>
-                                <button class="btn btn-danger btn-sm me-2">
-                                    <i class="fas fa-file-pdf"></i> Exportar PDF
-                                </button>
-                                <button class="btn btn-primary btn-sm">
-                                    <i class="fas fa-plus"></i> Nueva Auditoría
-                                </button>
-                            </div>
-                        </div>
-                        <div class="card-body">
-                            <div class="row mb-4">
-                                <div class="col-md-12">
-                                    <div class="indicator-form">
-                                        <h5>Indicadores de Auditoría</h5>
-                                        <form>
-                                            <div class="row">
-                                                <div class="col-md-4">
-                                                    <div class="mb-3">
-                                                        <label class="form-label">Status</label>
-                                                        <select class="form-select">
-                                                            <option>Activo</option>
-                                                            <option>Inactivo</option>
-                                                            <option>En revisión</option>
-                                                        </select>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-4">
-                                                    <div class="mb-3">
-                                                        <label class="form-label">Status 2</label>
-                                                        <select class="form-select">
-                                                            <option>Nuevo</option>
-                                                            <option>Antiguo</option>
-                                                        </select>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-4">
-                                                    <div class="mb-3">
-                                                        <label class="form-label">Proceso</label>
-                                                        <input type="text" class="form-control">
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="col-md-4">
-                                                    <div class="mb-3">
-                                                        <label class="form-label">Responsable</label>
-                                                        <input type="text" class="form-control">
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-4">
-                                                    <div class="mb-3">
-                                                        <label class="form-label">Unidad de medida</label>
-                                                        <input type="text" class="form-control">
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-4">
-                                                    <div class="mb-3">
-                                                        <label class="form-label">Objetivo de impacto</label>
-                                                        <select class="form-select">
-                                                            <option>Obj 1</option>
-                                                            <option>Obj 2</option>
-                                                            <option>Obj 3</option>
-                                                        </select>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="mb-3">
-                                                <label class="form-label">Descripción (Qué es lo que mide)</label>
-                                                <textarea class="form-control" rows="2"></textarea>
-                                            </div>
-                                            <div class="row">
-                                                <div class="col-md-4">
-                                                    <div class="mb-3">
-                                                        <label class="form-label">Principal Objeto (Interesado)</label>
-                                                        <input type="text" class="form-control">
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-4">
-                                                    <div class="mb-3">
-                                                        <label class="form-label">Meta objetivo</label>
-                                                        <input type="text" class="form-control">
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-4">
-                                                    <div class="mb-3">
-                                                        <label class="form-label">Frecuencia de medición</label>
-                                                        <input type="text" class="form-control">
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="mb-3">
-                                                <label class="form-label">Estrategia</label>
-                                                <textarea class="form-control" rows="2"></textarea>
-                                            </div>
-                                            <div class="mb-3">
-                                                <label class="form-label">Metodología</label>
-                                                <textarea class="form-control" rows="2"></textarea>
-                                            </div>
-                                            <div class="mb-3">
-                                                <label class="form-label">Procedimiento</label>
-                                                <textarea class="form-control" rows="2"></textarea>
-                                            </div>
-                                            <div class="row">
-                                                <div class="col-md-6">
-                                                    <div class="mb-3">
-                                                        <label class="form-label">Código del Procedimiento</label>
-                                                        <input type="text" class="form-control">
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-6">
-                                                    <div class="mb-3">
-                                                        <label class="form-label">Añadir Objetivos</label>
-                                                        <input type="text" class="form-control">
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <button type="submit" class="btn btn-primary">Guardar Indicador</button>
-                                        </form>
-                                    </div>
-                                </div>
-                            </div>
-                            
-                            <div class="table-responsive">
-                                <table class="table table-hover">
-                                    <thead>
-                                        <tr>
-                                            <th>Código</th>
-                                            <th>Proceso Auditado</th>
-                                            <th>Fecha Programada</th>
-                                            <th>Auditor</th>
-                                            <th>Estado</th>
-                                            <th>Resultado</th>
-                                            <th>Acciones</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td>AU-2023-001</td>
-                                            <td>Gestión de Calidad</td>
-                                            <td>15/08/2023</td>
-                                            <td>Laura Martínez</td>
-                                            <td><span class="badge badge-success">Completada</span></td>
-                                            <td>Conforme</td>
-                                            <td>
-                                                <button class="btn btn-sm btn-info"><i class="fas fa-eye"></i></button>
-                                                <button class="btn btn-sm btn-warning"><i class="fas fa-edit"></i></button>
-                                                <button class="btn btn-sm btn-danger"><i class="fas fa-trash"></i></button>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>AU-2023-002</td>
-                                            <td>Producción</td>
-                                            <td>20/08/2023</td>
-                                            <td>Carlos Rodríguez</td>
-                                            <td><span class="badge badge-warning">En Progreso</span></td>
-                                            <td>Parcialmente Conforme</td>
-                                            <td>
-                                                <button class="btn btn-sm btn-info"><i class="fas fa-eye"></i></button>
-                                                <button class="btn btn-sm btn-warning"><i class="fas fa-edit"></i></button>
-                                                <button class="btn btn-sm btn-danger"><i class="fas fa-trash"></i></button>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>AU-2023-003</td>
-                                            <td>Almacén</td>
-                                            <td>25/08/2023</td>
-                                            <td>Ana García</td>
-                                            <td><span class="badge badge-danger">Pendiente</span></td>
-                                            <td>-</td>
-                                            <td>
-                                                <button class="btn btn-sm btn-info"><i class="fas fa-eye"></i></button>
-                                                <button class="btn btn-sm btn-warning"><i class="fas fa-edit"></i></button>
-                                                <button class="btn btn-sm btn-danger"><i class="fas fa-trash"></i></button>
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Acciones Correctivas Section -->
-                <div id="acciones" class="section">
-                    <div class="card">
-                        <div class="card-header d-flex justify-content-between align-items-center">
-                            <h5 class="mb-0">Acciones Correctivas</h5>
-                            <button class="btn btn-primary btn-sm">
-                                <i class="fas fa-plus"></i> Nueva Acción
-                            </button>
-                        </div>
-                        <div class="card-body">
-                            <div class="table-responsive">
-                                <table class="table table-hover">
-                                    <thead>
-                                        <tr>
-                                            <th>Código</th>
-                                            <th>Origen</th>
-                                            <th>Descripción</th>
-                                            <th>Responsable</th>
-                                            <th>Fecha Límite</th>
-                                            <th>Estado</th>
-                                            <th>Acciones</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td>AC-2023-015</td>
-                                            <td>Auditoría AU-2023-001</td>
-                                            <td>Falta de controles en proceso de verificación</td>
-                                            <td>Juan Pérez</td>
-                                            <td>30/08/2023</td>
-                                            <td><span class="badge badge-warning">En Progreso</span></td>
-                                            <td>
-                                                <button class="btn btn-sm btn-info"><i class="fas fa-eye"></i></button>
-                                                <button class="btn btn-sm btn-warning"><i class="fas fa-edit"></i></button>
-                                                <button class="btn btn-sm btn-danger"><i class="fas fa-trash"></i></button>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>AC-2023-016</td>
-                                            <td>Revisión de Documentos</td>
-                                            <td>Documentación desactualizada en procedimiento PR-015</td>
-                                            <td>María López</td>
-                                            <td>05/09/2023</td>
-                                            <td><span class="badge badge-warning">En Progreso</span></td>
-                                            <td>
-                                                <button class="btn btn-sm btn-info"><i class="fas fa-eye"></i></button>
-                                                <button class="btn btn-sm btn-warning"><i class="fas fa-edit"></i></button>
-                                                <button class="btn btn-sm btn-danger"><i class="fas fa-trash"></i></button>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>AC-2023-017</td>
-                                            <td>Queja de Cliente</td>
-                                            <td>Incumplimiento de protocolos de empaque</td>
-                                            <td>Carlos Rodríguez</td>
-                                            <td>10/09/2023</td>
-                                            <td><span class="badge badge-danger">Pendiente</span></td>
-                                            <td>
-                                                <button class="btn btn-sm btn-info"><i class="fas fa-eye"></i></button>
-                                                <button class="btn btn-sm btn-warning"><i class="fas fa-edit"></i></button>
-                                                <button class="btn btn-sm btn-danger"><i class="fas fa-trash"></i></button>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>AC-2023-014</td>
-                                            <td>Auditoría AU-2023-020</td>
-                                            <td>Falta de etiquetado en productos terminados</td>
-                                            <td>Roberto Sánchez</td>
-                                            <td>15/08/2023</td>
-                                            <td><span class="badge badge-success">Completada</span></td>
-                                            <td>
-                                                <button class="btn btn-sm btn-info"><i class="fas fa-eye"></i></button>
-                                                <button class="btn btn-sm btn-warning"><i class="fas fa-edit"></i></button>
-                                                <button class="btn btn-sm btn-danger"><i class="fas fa-trash"></i></button>
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Indicadores Section -->
-                <div id="indicadores" class="section">
-                    <div class="card">
-                        <div class="card-header d-flex justify-content-between align-items-center">
-                            <h5 class="mb-0">Indicadores</h5>
-                            <button class="btn btn-primary btn-sm">
-                                <i class="fas fa-plus"></i> Nuevo Indicador
-                            </button>
-                        </div>
-                        <div class="card-body">
-                            <div class="indicator-form mb-4">
-                                <h5>Registro de Indicadores</h5>
-                                <form>
-                                    <div class="row">
-                                        <div class="col-md-3">
-                                            <div class="mb-3">
-                                                <label class="form-label">Status</label>
-                                                <select class="form-select">
-                                                    <option>Activo</option>
-                                                    <option>Inactivo</option>
-                                                    <option>En revisión</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-3">
-                                            <div class="mb-3">
-                                                <label class="form-label">Status 2</label>
-                                                <select class="form-select">
-                                                    <option>Nuevo</option>
-                                                    <option>Antiguo</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-3">
-                                            <div class="mb-3">
-                                                <label class="form-label">Proceso</label>
-                                                <input type="text" class="form-control">
-                                            </div>
-                                        </div>
-                                        <div class="col-md-3">
-                                            <div class="mb-3">
-                                                <label class="form-label">Responsable</label>
-                                                <input type="text" class="form-control">
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="mb-3">
-                                        <label class="form-label">Descripción (Qué es lo que mide)</label>
-                                        <textarea class="form-control" rows="2"></textarea>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-3">
-                                            <div class="mb-3">
-                                                <label class="form-label">Unidad de medida</label>
-                                                <input type="text" class="form-control">
-                                            </div>
-                                        </div>
-                                        <div class="col-md-3">
-                                            <div class="mb-3">
-                                                <label class="form-label">Objetivo de impacto</label>
-                                                <select class="form-select">
-                                                    <option>Obj 1</option>
-                                                    <option>Obj 2</option>
-                                                    <option>Obj 3</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-3">
-                                            <div class="mb-3">
-                                                <label class="form-label">Principal Objeto (Interesado)</label>
-                                                <input type="text" class="form-control">
-                                            </div>
-                                        </div>
-                                        <div class="col-md-3">
-                                            <div class="mb-3">
-                                                <label class="form-label">Meta objetivo</label>
-                                                <input type="text" class="form-control">
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="mb-3">
-                                        <label class="form-label">Estrategia</label>
-                                        <textarea class="form-control" rows="2"></textarea>
-                                    </div>
-                                    <div class="mb-3">
-                                        <label class="form-label">Metodología</label>
-                                        <textarea class="form-control" rows="2"></textarea>
-                                    </div>
-                                    <div class="mb-3">
-                                        <label class="form-label">Procedimiento</label>
-                                        <textarea class="form-control" rows="2"></textarea>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-4">
-                                            <div class="mb-3">
-                                                <label class="form-label">Frecuencia de medición</label>
-                                                <input type="text" class="form-control">
-                                            </div>
-                                        </div>
-                                        <div class="col-md-4">
-                                            <div class="mb-3">
-                                                <label class="form-label">Código del Procedimiento</label>
-                                                <input type="text" class="form-control">
-                                            </div>
-                                        </div>
-                                        <div class="col-md-4">
-                                            <div class="mb-3">
-                                                <label class="form-label">Añadir Objetivos</label>
-                                                <input type="text" class="form-control">
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <button type="submit" class="btn btn-primary">Guardar Indicador</button>
-                                </form>
-                            </div>
-                            
-                            <div class="table-responsive">
-                                <table class="table table-hover">
-                                    <thead>
-                                        <tr>
-                                            <th>Código</th>
-                                            <th>Indicador</th>
-                                            <th>Proceso</th>
-                                            <th>Responsable</th>
-                                            <th>Unidad</th>
-                                            <th>Meta</th>
-                                            <th>Frecuencia</th>
-                                            <th>Estado</th>
-                                            <th>Acciones</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td>IND-001</td>
-                                            <td>Eficiencia en producción</td>
-                                            <td>Producción</td>
-                                            <td>Roberto Sánchez</td>
-                                            <td>Porcentaje</td>
-                                            <td>95%</td>
-                                            <td>Mensual</td>
-                                            <td><span class="badge badge-success">Activo</span></td>
-                                            <td>
-                                                <button class="btn btn-sm btn-info"><i class="fas fa-eye"></i></button>
-                                                <button class="btn btn-sm btn-warning"><i class="fas fa-edit"></i></button>
-                                                <button class="btn btn-sm btn-danger"><i class="fas fa-trash"></i></button>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>IND-002</td>
-                                            <td>Tiempo de respuesta a quejas</td>
-                                            <td>Gestión de Calidad</td>
-                                            <td>Ana García</td>
-                                            <td>Días</td>
-                                            <td>3</td>
-                                            <td>Semanal</td>
-                                            <td><span class="badge badge-success">Activo</span></td>
-                                            <td>
-                                                <button class="btn btn-sm btn-info"><i class="fas fa-eye"></i></button>
-                                                <button class="btn btn-sm btn-warning"><i class="fas fa-edit"></i></button>
-                                                <button class="btn btn-sm btn-danger"><i class="fas fa-trash"></i></button>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>IND-003</td>
-                                            <td>Índice de no conformidades</td>
-                                            <td>Auditoría</td>
-                                            <td>Laura Martínez</td>
-                                            <td>Porcentaje</td>
-                                            <td>2%</td>
-                                            <td>Mensual</td>
-                                            <td><span class="badge badge-warning">En revisión</span></td>
-                                            <td>
-                                                <button class="btn btn-sm btn-info"><i class="fas fa-eye"></i></button>
-                                                <button class="btn btn-sm btn-warning"><i class="fas fa-edit"></i></button>
-                                                <button class="btn btn-sm btn-danger"><i class="fas fa-trash"></i></button>
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+      <!-- Main Content -->
+      <div class="col-md-10 main-content">
+        <!-- Header -->
+        <div class="header">
+          <h2 id="section-title">Dashboard</h2>
         </div>
-    </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="Prototipo.js"></script>
+        <!-- Dashboard Section -->
+        <div id="dashboard" class="section active">
+          <div class="row">
+            <div class="col-md-3">
+              <div class="card stat-card" data-goto="documentos" style="cursor:pointer;">
+                <i class="fas fa-file-alt"></i>
+                <h2 id="docsCount">0</h2>
+                <p>Documentos</p>
+              </div>
+            </div>
+            <div class="col-md-3">
+              <div class="card stat-card" data-goto="auditorias" style="cursor:pointer;">
+                <i class="fas fa-clipboard-check"></i>
+                <h2 id="auditsCount">0</h2>
+                <p>Auditorías</p>
+              </div>
+            </div>
+            <div class="col-md-3">
+              <div class="card stat-card" data-goto="acciones" style="cursor:pointer;">
+                <i class="fas fa-tasks"></i>
+                <h2 id="actionsCount">0</h2>
+                <p>Acciones Correctivas</p>
+              </div>
+            </div>
+            <div class="col-md-3">
+              <div class="card stat-card" data-goto="indicadores" style="cursor:pointer;">
+                <i class="fas fa-chart-line"></i>
+                <h2 id="indicatorsCount">0</h2>
+                <p>Indicadores</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="row mt-3">
+            <div class="col-md-6">
+              <div class="card">
+                <div class="card-header">
+                  <h5 class="mb-0">Auditorías Recientes</h5>
+                </div>
+                <div class="card-body">
+                  <div class="table-responsive">
+                    <table class="table table-hover" id="tablaAuditoriasRecientes">
+                      <thead>
+                        <tr>
+                          <th>Código</th>
+                          <th>Proceso</th>
+                          <th>Fecha</th>
+                          <th>Estado</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <!-- Tu JS rellenará esto -->
+                        <tr>
+                          <td>AU-2023-001</td>
+                          <td>Gestión de Calidad</td>
+                          <td>15/08/2023</td>
+                          <td><span class="badge bg-success">Completada</span></td>
+                        </tr>
+                        <tr>
+                          <td>AU-2023-002</td>
+                          <td>Producción</td>
+                          <td>20/08/2023</td>
+                          <td><span class="badge bg-warning">En Progreso</span></td>
+                        </tr>
+                        <tr>
+                          <td>AU-2023-003</td>
+                          <td>Almacén</td>
+                          <td>25/08/2023</td>
+                          <td><span class="badge bg-danger">Pendiente</span></td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-6">
+              <div class="card">
+                <div class="card-header">
+                  <h5 class="mb-0">Acciones Correctivas Pendientes</h5>
+                </div>
+                <div class="card-body">
+                  <div class="table-responsive">
+                    <table class="table table-hover" id="tablaAccionesDashboard">
+                      <thead>
+                        <tr>
+                          <th>Código</th>
+                          <th>Descripción</th>
+                          <th>Responsable</th>
+                          <th>Plazo</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td>AC-2023-015</td>
+                          <td>Falta de controles en proceso</td>
+                          <td>Juan Pérez</td>
+                          <td>30/08/2023</td>
+                        </tr>
+                        <tr>
+                          <td>AC-2023-016</td>
+                          <td>Documentación desactualizada</td>
+                          <td>María López</td>
+                          <td>05/09/2023</td>
+                        </tr>
+                        <tr>
+                          <td>AC-2023-017</td>
+                          <td>Incumplimiento de protocolos</td>
+                          <td>Carlos Rodríguez</td>
+                          <td>10/09/2023</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Control de Documentos Section -->
+        <div id="documentos" class="section">
+          <div class="card">
+            <div class="card-header d-flex justify-content-between align-items-center">
+              <h5 class="mb-0">Control de Documentos</h5>
+              <button class="btn btn-primary btn-sm">
+                <i class="fas fa-plus"></i> Nuevo Documento
+              </button>
+            </div>
+            <div class="card-body">
+              <div class="table-responsive">
+                <table class="table table-hover" id="tablaDocumentos">
+                  <thead>
+                    <tr>
+                      <th>Código</th>
+                      <th>Nombre del Documento</th>
+                      <th>Versión</th>
+                      <th>Fecha</th>
+                      <th>Responsable</th>
+                      <th>Estado</th>
+                      <th>Acciones</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <!-- Tu JS rellenará esto -->
+                    <tr>
+                      <td>DOC-QS-001</td>
+                      <td>Manual de Calidad</td>
+                      <td>v3.2</td>
+                      <td>10/07/2023</td>
+                      <td>Ana García</td>
+                      <td><span class="badge bg-success">Aprobado</span></td>
+                      <td>
+                        <button class="btn btn-sm btn-info"><i class="fas fa-eye"></i></button>
+                        <button class="btn btn-sm btn-warning"><i class="fas fa-edit"></i></button>
+                        <button class="btn btn-sm btn-danger"><i class="fas fa-trash"></i></button>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>DOC-PR-015</td>
+                      <td>Procedimiento de Producción</td>
+                      <td>v2.1</td>
+                      <td>15/07/2023</td>
+                      <td>Roberto Sánchez</td>
+                      <td><span class="badge bg-success">Aprobado</span></td>
+                      <td>
+                        <button class="btn btn-sm btn-info"><i class="fas fa-eye"></i></button>
+                        <button class="btn btn-sm btn-warning"><i class="fas fa-edit"></i></button>
+                        <button class="btn btn-sm btn-danger"><i class="fas fa-trash"></i></button>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>DOC-AU-003</td>
+                      <td>Protocolo de Auditoría</td>
+                      <td>v1.5</td>
+                      <td>22/07/2023</td>
+                      <td>Laura Martínez</td>
+                      <td><span class="badge bg-warning">En Revisión</span></td>
+                      <td>
+                        <button class="btn btn-sm btn-info"><i class="fas fa-eye"></i></button>
+                        <button class="btn btn-sm btn-warning"><i class="fas fa-edit"></i></button>
+                        <button class="btn btn-sm btn-danger"><i class="fas fa-trash"></i></button>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>DOC-AC-008</td>
+                      <td>Formato de Acciones Correctivas</td>
+                      <td>v2.0</td>
+                      <td>30/07/2023</td>
+                      <td>Miguel Ángel Díaz</td>
+                      <td><span class="badge bg-danger">Obsoleto</span></td>
+                      <td>
+                        <button class="btn btn-sm btn-info"><i class="fas fa-eye"></i></button>
+                        <button class="btn btn-sm btn-warning"><i class="fas fa-edit"></i></button>
+                        <button class="btn btn-sm btn-danger"><i class="fas fa-trash"></i></button>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Auditorías Internas Section -->
+        <div id="auditorias" class="section">
+          <div class="card">
+            <div class="card-header d-flex justify-content-between align-items-center">
+              <h5 class="mb-0">Auditorías Internas</h5>
+              <div>
+                <button class="btn btn-success btn-sm me-2">
+                  <i class="fas fa-file-excel"></i> Exportar Excel
+                </button>
+                <button class="btn btn-danger btn-sm me-2">
+                  <i class="fas fa-file-pdf"></i> Exportar PDF
+                </button>
+                <button class="btn btn-primary btn-sm">
+                  <i class="fas fa-plus"></i> Nueva Auditoría
+                </button>
+              </div>
+            </div>
+            <div class="card-body">
+              <!-- (formulario de indicadores: lo dejo igual) -->
+
+              <div class="table-responsive">
+                <table class="table table-hover" id="tablaAuditorias">
+                  <thead>
+                    <tr>
+                      <th>Código</th>
+                      <th>Proceso Auditado</th>
+                      <th>Fecha Programada</th>
+                      <th>Auditor</th>
+                      <th>Estado</th>
+                      <th>Resultado</th>
+                      <th>Acciones</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <!-- Tu JS rellenará esto -->
+                    <tr>
+                      <td>AU-2023-001</td>
+                      <td>Gestión de Calidad</td>
+                      <td>15/08/2023</td>
+                      <td>Laura Martínez</td>
+                      <td><span class="badge bg-success">Completada</span></td>
+                      <td>Conforme</td>
+                      <td>
+                        <button class="btn btn-sm btn-info"><i class="fas fa-eye"></i></button>
+                        <button class="btn btn-sm btn-warning"><i class="fas fa-edit"></i></button>
+                        <button class="btn btn-sm btn-danger"><i class="fas fa-trash"></i></button>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>AU-2023-002</td>
+                      <td>Producción</td>
+                      <td>20/08/2023</td>
+                      <td>Carlos Rodríguez</td>
+                      <td><span class="badge bg-warning">En Progreso</span></td>
+                      <td>Parcialmente Conforme</td>
+                      <td>
+                        <button class="btn btn-sm btn-info"><i class="fas fa-eye"></i></button>
+                        <button class="btn btn-sm btn-warning"><i class="fas fa-edit"></i></button>
+                        <button class="btn btn-sm btn-danger"><i class="fas fa-trash"></i></button>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>AU-2023-003</td>
+                      <td>Almacén</td>
+                      <td>25/08/2023</td>
+                      <td>Ana García</td>
+                      <td><span class="badge bg-danger">Pendiente</span></td>
+                      <td>-</td>
+                      <td>
+                        <button class="btn btn-sm btn-info"><i class="fas fa-eye"></i></button>
+                        <button class="btn btn-sm btn-warning"><i class="fas fa-edit"></i></button>
+                        <button class="btn btn-sm btn-danger"><i class="fas fa-trash"></i></button>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+
+            </div>
+          </div>
+        </div>
+
+        <!-- Acciones Correctivas Section -->
+        <div id="acciones" class="section">
+          <div class="card">
+            <div class="card-header d-flex justify-content-between align-items-center">
+              <h5 class="mb-0">Acciones Correctivas</h5>
+              <button class="btn btn-primary btn-sm">
+                <i class="fas fa-plus"></i> Nueva Acción
+              </button>
+            </div>
+            <div class="card-body">
+              <div class="table-responsive">
+                <table class="table table-hover" id="tablaAcciones">
+                  <thead>
+                    <tr>
+                      <th>Código</th>
+                      <th>Origen</th>
+                      <th>Descripción</th>
+                      <th>Responsable</th>
+                      <th>Fecha Límite</th>
+                      <th>Estado</th>
+                      <th>Acciones</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <!-- Tu JS rellenará esto -->
+                    <tr>
+                      <td>AC-2023-015</td>
+                      <td>Auditoría AU-2023-001</td>
+                      <td>Falta de controles en proceso de verificación</td>
+                      <td>Juan Pérez</td>
+                      <td>30/08/2023</td>
+                      <td><span class="badge bg-warning">En Progreso</span></td>
+                      <td>
+                        <button class="btn btn-sm btn-info"><i class="fas fa-eye"></i></button>
+                        <button class="btn btn-sm btn-warning"><i class="fas fa-edit"></i></button>
+                        <button class="btn btn-sm btn-danger"><i class="fas fa-trash"></i></button>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>AC-2023-016</td>
+                      <td>Revisión de Documentos</td>
+                      <td>Documentación desactualizada en procedimiento PR-015</td>
+                      <td>María López</td>
+                      <td>05/09/2023</td>
+                      <td><span class="badge bg-warning">En Progreso</span></td>
+                      <td>
+                        <button class="btn btn-sm btn-info"><i class="fas fa-eye"></i></button>
+                        <button class="btn btn-sm btn-warning"><i class="fas fa-edit"></i></button>
+                        <button class="btn btn-sm btn-danger"><i class="fas fa-trash"></i></button>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>AC-2023-017</td>
+                      <td>Queja de Cliente</td>
+                      <td>Incumplimiento de protocolos de empaque</td>
+                      <td>Carlos Rodríguez</td>
+                      <td>10/09/2023</td>
+                      <td><span class="badge bg-danger">Pendiente</span></td>
+                      <td>
+                        <button class="btn btn-sm btn-info"><i class="fas fa-eye"></i></button>
+                        <button class="btn btn-sm btn-warning"><i class="fas fa-edit"></i></button>
+                        <button class="btn btn-sm btn-danger"><i class="fas fa-trash"></i></button>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>AC-2023-014</td>
+                      <td>Auditoría AU-2023-020</td>
+                      <td>Falta de etiquetado en productos terminados</td>
+                      <td>Roberto Sánchez</td>
+                      <td>15/08/2023</td>
+                      <td><span class="badge bg-success">Completada</span></td>
+                      <td>
+                        <button class="btn btn-sm btn-info"><i class="fas fa-eye"></i></button>
+                        <button class="btn btn-sm btn-warning"><i class="fas fa-edit"></i></button>
+                        <button class="btn btn-sm btn-danger"><i class="fas fa-trash"></i></button>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Indicadores Section -->
+        <div id="indicadores" class="section">
+          <div class="card">
+            <div class="card-header d-flex justify-content-between align-items-center">
+              <h5 class="mb-0">Indicadores</h5>
+              <button class="btn btn-primary btn-sm">
+                <i class="fas fa-plus"></i> Nuevo Indicador
+              </button>
+            </div>
+            <div class="card-body">
+              <!-- (formulario de indicadores: lo dejo igual) -->
+
+              <div class="table-responsive">
+                <table class="table table-hover" id="tablaIndicadores">
+                  <thead>
+                    <tr>
+                      <th>Código</th>
+                      <th>Indicador</th>
+                      <th>Proceso</th>
+                      <th>Responsable</th>
+                      <th>Unidad</th>
+                      <th>Meta</th>
+                      <th>Frecuencia</th>
+                      <th>Estado</th>
+                      <th>Acciones</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <!-- Tu JS rellenará esto -->
+                    <tr>
+                      <td>IND-001</td>
+                      <td>Eficiencia en producción</td>
+                      <td>Producción</td>
+                      <td>Roberto Sánchez</td>
+                      <td>Porcentaje</td>
+                      <td>95%</td>
+                      <td>Mensual</td>
+                      <td><span class="badge bg-success">Activo</span></td>
+                      <td>
+                        <button class="btn btn-sm btn-info"><i class="fas fa-eye"></i></button>
+                        <button class="btn btn-sm btn-warning"><i class="fas fa-edit"></i></button>
+                        <button class="btn btn-sm btn-danger"><i class="fas fa-trash"></i></button>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>IND-002</td>
+                      <td>Tiempo de respuesta a quejas</td>
+                      <td>Gestión de Calidad</td>
+                      <td>Ana García</td>
+                      <td>Días</td>
+                      <td>3</td>
+                      <td>Semanal</td>
+                      <td><span class="badge bg-success">Activo</span></td>
+                      <td>
+                        <button class="btn btn-sm btn-info"><i class="fas fa-eye"></i></button>
+                        <button class="btn btn-sm btn-warning"><i class="fas fa-edit"></i></button>
+                        <button class="btn btn-sm btn-danger"><i class="fas fa-trash"></i></button>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>IND-003</td>
+                      <td>Índice de no conformidades</td>
+                      <td>Auditoría</td>
+                      <td>Laura Martínez</td>
+                      <td>Porcentaje</td>
+                      <td>2%</td>
+                      <td>Mensual</td>
+                      <td><span class="badge bg-warning">En revisión</span></td>
+                      <td>
+                        <button class="btn btn-sm btn-info"><i class="fas fa-eye"></i></button>
+                        <button class="btn btn-sm btn-warning"><i class="fas fa-edit"></i></button>
+                        <button class="btn btn-sm btn-danger"><i class="fas fa-trash"></i></button>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+
+            </div>
+          </div>
+        </div>
+
+      </div> <!-- /main-content -->
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+  <!-- Mini script de navegación por secciones (fallback) -->
+  <script>
+    (function () {
+      const links = document.querySelectorAll('.sidebar .nav-link');
+      const sections = document.querySelectorAll('.section');
+      const title = document.getElementById('section-title');
+
+      function show(secId) {
+        sections.forEach(s => s.classList.remove('active'));
+        const target = document.getElementById(secId);
+        if (target) target.classList.add('active');
+
+        links.forEach(l => l.classList.remove('active'));
+        const link = document.querySelector('.sidebar .nav-link[data-section="'+secId+'"]');
+        if (link) link.classList.add('active');
+
+        const map = {
+          dashboard: 'Dashboard',
+          documentos: 'Control de Documentos',
+          auditorias: 'Auditorías Internas',
+          acciones: 'Acciones Correctivas',
+          indicadores: 'Indicadores'
+        };
+        if (title) title.textContent = map[secId] || 'Dashboard';
+      }
+
+      // Sidebar clicks
+      links.forEach(link => {
+        link.addEventListener('click', e => {
+          e.preventDefault();
+          const sec = link.getAttribute('data-section');
+          if (sec) show(sec);
+        });
+      });
+
+      // Tarjetas del dashboard
+      document.querySelectorAll('.stat-card[data-goto]').forEach(card => {
+        card.addEventListener('click', () => {
+          const sec = card.getAttribute('data-goto');
+          if (sec) show(sec);
+        });
+      });
+    })();
+  </script>
+
+  <!-- Tu JS principal -->
+  <script src="Prototipo.js"></script>
 </body>
 </html>
