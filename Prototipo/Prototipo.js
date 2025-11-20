@@ -1,4 +1,4 @@
-// Prototipo.js — QualityWeb360 (Dashboard + CRUD Documentos/Indicadores protegidos por JWT)
+// Prototipo.js — QualityWeb360 (Dashboard + CRUD Documentos / Auditorías / Acciones / Indicadores protegidos por JWT)
 const API = 'http://localhost:3001/api';
 const BACKEND = 'http://localhost:3001'; // para abrir archivos /uploads
 
@@ -79,6 +79,7 @@ function badgeClass(estado) {
     'Completada': 'bg-success',
     'En Progreso': 'bg-warning',
     'Pendiente': 'bg-danger',
+    'Cancelada': 'bg-secondary',
 
     'Activo': 'bg-success',
     'Inactivo': 'bg-secondary',
@@ -103,22 +104,43 @@ function showErrorToast(msg = 'Error') { console.error(msg); }
    ========================= */
 async function getJSON(url) {
   const r = await fetch(url, { headers: authHeaders() });
-  if (r.status === 401) { localStorage.clear(); requireLogin(); return; }
-  if (!r.ok) throw new Error(`HTTP ${r.status}`);
+
+  if (r.status === 401) {
+    localStorage.clear();
+    requireLogin();
+    return null;
+  }
+
+  if (!r.ok) {
+    // Log detallado para ver qué respondió el backend
+    const text = await r.text().catch(() => '');
+    console.error('Error HTTP en getJSON:', r.status, url, text);
+    return null; // <- en vez de lanzar excepción
+  }
+
   return r.json();
 }
+
 async function postForm(url, formData) {
   const r = await fetch(url, { method: 'POST', headers: authHeaders(), body: formData });
   if (!r.ok) throw new Error(await r.text());
   return r.json();
 }
 async function postJSON(url, data) {
-  const r = await fetch(url, { method: 'POST', headers: { ...authHeaders(), 'Content-Type': 'application/json' }, body: JSON.stringify(data) });
+  const r = await fetch(url, {
+    method: 'POST',
+    headers: { ...authHeaders(), 'Content-Type': 'application/json' },
+    body: JSON.stringify(data)
+  });
   if (!r.ok) throw new Error(await r.text());
   return r.json();
 }
 async function putJSON(url, data) {
-  const r = await fetch(url, { method: 'PUT', headers: { ...authHeaders(), 'Content-Type': 'application/json' }, body: JSON.stringify(data) });
+  const r = await fetch(url, {
+    method: 'PUT',
+    headers: { ...authHeaders(), 'Content-Type': 'application/json' },
+    body: JSON.stringify(data)
+  });
   if (!r.ok) throw new Error(await r.text());
   return r.json();
 }
@@ -223,8 +245,6 @@ async function onSubmitDocumento(e) {
   const proceso= document.getElementById('doc_proceso').value;
   const file   = document.getElementById('doc_archivo').files[0];
 
-  if (!nombre) { alert('El nombre del documento es obligatorio'); return; }
-
   try {
     if (!id) {
       const user = getCurrentUser();
@@ -303,6 +323,139 @@ function initTablaDocumentosActions() {
 }
 
 /* =========================
+   AUDITORÍAS – CRUD
+   ========================= */
+let __audsCache = [];
+
+function leerAuditoriaForm() {
+  return {
+    codigo: document.getElementById('aud_codigo').value.trim(),
+    proceso_auditado: document.getElementById('aud_proceso').value.trim(),
+    fecha_programada: document.getElementById('aud_fecha').value || null,
+    auditor: document.getElementById('aud_auditor').value.trim(),
+    estado: document.getElementById('aud_estado').value,
+    resultado: document.getElementById('aud_resultado').value.trim(),
+  };
+}
+
+function escribirAuditoriaForm(a = {}) {
+  document.getElementById('aud_codigo').value   = a.codigo || '';
+  document.getElementById('aud_proceso').value  = a.proceso_auditado || '';
+  document.getElementById('aud_fecha').value    = a.fecha_programada
+    ? new Date(a.fecha_programada).toISOString().substring(0, 10)
+    : '';
+  document.getElementById('aud_auditor').value  = a.auditor || '';
+  document.getElementById('aud_estado').value   = a.estado || 'Pendiente';
+  document.getElementById('aud_resultado').value= a.resultado || '';
+}
+
+function abrirModalAuditoriaNueva() {
+  document.getElementById('auditoriaModalTitle').textContent = 'Nueva Auditoría';
+  document.getElementById('aud_id').value = '';
+  escribirAuditoriaForm({});
+  new bootstrap.Modal(document.getElementById('auditoriaModal')).show();
+}
+
+function abrirModalAuditoriaEditar(a) {
+  document.getElementById('auditoriaModalTitle').textContent = 'Editar Auditoría';
+  document.getElementById('aud_id').value = a.id_auditoria;
+  escribirAuditoriaForm(a);
+  new bootstrap.Modal(document.getElementById('auditoriaModal')).show();
+}
+
+function abrirModalAuditoriaVer(a) {
+  document.getElementById('auditoriaModalTitle').textContent = 'Ver Auditoría';
+  document.getElementById('aud_id').value = a.id_auditoria;
+  escribirAuditoriaForm(a);
+  new bootstrap.Modal(document.getElementById('auditoriaModal')).show();
+}
+
+async function onSubmitAuditoria(e) {
+  e.preventDefault();
+  const id = document.getElementById('aud_id').value.trim();
+  const payload = leerAuditoriaForm();
+
+  try {
+    if (!id) {
+      await postJSON(`${API}/auditorias`, payload);
+    } else {
+      await putJSON(`${API}/auditorias/${id}`, payload);
+    }
+
+    bootstrap.Modal.getInstance(document.getElementById('auditoriaModal')).hide();
+    await cargarAuditorias();
+    await cargarMetricas();
+  } catch (err) {
+    console.error(err);
+    alert('No se pudo guardar la auditoría');
+  }
+}
+
+async function cargarAuditorias() {
+  const tbody = document.querySelector('#tablaAuditorias tbody');
+  if (!tbody) return;
+  try {
+    const rows = await getJSON(`${API}/auditorias`);
+    if (!rows) return;
+    __audsCache = rows;
+
+    tbody.innerHTML = rows.map(a => `
+      <tr data-id="${a.id_auditoria}">
+        <td>${safe(a.codigo)}</td>
+        <td>${safe(a.proceso_auditado)}</td>
+        <td>${formatDate(a.fecha_programada)}</td>
+        <td>${safe(a.auditor)}</td>
+        <td><span class="${badgeClass(a.estado)}">${safe(a.estado)}</span></td>
+        <td>${safe(a.resultado)}</td>
+        <td class="text-end">
+          <button class="btn btn-info btn-sm btn-aud-view"  data-id="${a.id_auditoria}" title="Ver">👁</button>
+          <button class="btn btn-warning btn-sm btn-aud-edit" data-id="${a.id_auditoria}" title="Editar">✏️</button>
+          <button class="btn btn-danger btn-sm btn-aud-del"  data-id="${a.id_auditoria}" title="Eliminar">🗑</button>
+        </td>
+      </tr>
+    `).join('');
+  } catch {
+    showErrorToast('No se pudieron cargar las auditorías');
+  }
+}
+
+function initTablaAuditoriasActions() {
+  const tbody = document.querySelector('#tablaAuditorias tbody');
+  if (!tbody) return;
+
+  tbody.addEventListener('click', async (e) => {
+    const btn = e.target.closest('button');
+    if (!btn) return;
+
+    const id = Number(btn.dataset.id);
+    const aud = __audsCache.find(a => a.id_auditoria === id);
+    if (!aud) return;
+
+    if (btn.classList.contains('btn-aud-view')) {
+      abrirModalAuditoriaVer(aud);
+      return;
+    }
+
+    if (btn.classList.contains('btn-aud-edit')) {
+      abrirModalAuditoriaEditar(aud);
+      return;
+    }
+
+    if (btn.classList.contains('btn-aud-del')) {
+      if (!confirm('¿Eliminar esta auditoría?')) return;
+      try {
+        await del(`${API}/auditorias/${id}`);
+        await cargarAuditorias();
+        await cargarMetricas();
+      } catch (err) {
+        console.error(err);
+        alert('No se pudo eliminar la auditoría');
+      }
+    }
+  });
+}
+
+/* =========================
    INDICADORES (CRUD + export PDF)
    ========================= */
 let __indsCache = [];
@@ -343,7 +496,9 @@ function escribirIndicadorForm(ind = {}) {
   document.getElementById('ind_frecuencia').value = ind.frecuencia_medicion || '';
   document.getElementById('ind_principal_objeto').value = ind.principal_objeto || '';
   document.getElementById('ind_cod_proc').value = ind.cod_procedimiento || '';
-  document.getElementById('ind_fecha_deseada').value = ind.fecha_deseada_finalizacion ? new Date(ind.fecha_deseada_finalizacion).toISOString().substring(0,10) : '';
+  document.getElementById('ind_fecha_deseada').value = ind.fecha_deseada_finalizacion
+    ? new Date(ind.fecha_deseada_finalizacion).toISOString().substring(0,10)
+    : '';
   document.getElementById('ind_estrategia').value = ind.estrategia || '';
   document.getElementById('ind_metodologia').value = ind.metodologia || '';
   document.getElementById('ind_procedimiento').value = ind.procedimiento || '';
@@ -400,9 +555,6 @@ async function onSubmitIndicador(e) {
   e.preventDefault();
   const id = document.getElementById('ind_id').value.trim();
   const payload = leerIndicadorForm();
-
-  if (!payload.nombre_indicador) { alert('El nombre del indicador es obligatorio'); return; }
-
   try {
     if (!id) {
       await postJSON(`${API}/indicadores`, payload);
@@ -453,7 +605,6 @@ function initTablaIndicadoresActions() {
 }
 
 function exportIndicadoresPDF() {
-  // Exportación simple: abre una ventana imprimible (desde ahí “Guardar como PDF”)
   const rows = __indsCache;
   const html = `
     <html>
@@ -508,26 +659,143 @@ function exportIndicadoresPDF() {
 }
 
 /* =========================
-   AUDITORÍAS / ACCIONES (solo lectura)
+   ACCIONES CORRECTIVAS – CRUD
    ========================= */
-async function cargarAuditorias() {
-  const tbody = document.querySelector('#tablaAuditorias tbody');
+let __accionesCache = [];
+
+function leerAccionForm() {
+  return {
+    codigo: document.getElementById('acc_codigo').value.trim(),
+    origen: document.getElementById('acc_origen').value.trim(),
+    descripcion: document.getElementById('acc_descripcion').value.trim(),
+    responsable: document.getElementById('acc_responsable').value.trim(),
+    fecha_limite: document.getElementById('acc_fecha').value || null,
+    estado: document.getElementById('acc_estado').value
+  };
+}
+
+function escribirAccionForm(ac = {}) {
+  document.getElementById('acc_codigo').value       = ac.codigo || '';
+  document.getElementById('acc_origen').value       = ac.origen || '';
+  document.getElementById('acc_descripcion').value  = ac.descripcion || '';
+  document.getElementById('acc_responsable').value  = ac.responsable || '';
+  document.getElementById('acc_fecha').value        = ac.fecha_limite
+    ? new Date(ac.fecha_limite).toISOString().substring(0, 10)
+    : '';
+  document.getElementById('acc_estado').value       = ac.estado || 'Pendiente';
+}
+
+async function cargarAcciones() {
+  const tbody = document.querySelector('#tablaAcciones tbody');
   if (!tbody) return;
+
   try {
-    const rows = await getJSON(`${API}/auditorias`);
-    if (!rows) return;
-    tbody.innerHTML = rows.map(a => `
-      <tr>
-        <td>${safe(a.codigo)}</td>
-        <td>${safe(a.proceso_auditado)}</td>
-        <td>${formatDate(a.fecha_programada)}</td>
-        <td>${safe(a.auditor)}</td>
-        <td><span class="${badgeClass(a.estado)}">${safe(a.estado)}</span></td>
-        <td>${safe(a.resultado)}</td>
+    const rows = await getJSON(`${API}/acciones`);
+    if (!rows) return;         // <-- si hubo error en la API, salimos sin tronar
+    __accionesCache = rows;
+
+    tbody.innerHTML = rows.map(ac => `
+      <tr data-id="${ac.id_accion}">
+        <td>${safe(ac.codigo)}</td>
+        <td>${safe(ac.origen)}</td>
+        <td>${safe(ac.descripcion)}</td>
+        <td>${safe(ac.responsable)}</td>
+        <td>${formatDate(ac.fecha_limite)}</td>
+        <td><span class="${badgeClass(ac.estado)}">${safe(ac.estado)}</span></td>
+        <td class="text-end">
+          <button class="btn btn-info btn-sm btn-acc-view"  data-id="${ac.id_accion}" title="Ver">👁</button>
+          <button class="btn btn-warning btn-sm btn-acc-edit" data-id="${ac.id_accion}" title="Editar">✏️</button>
+          <button class="btn btn-danger btn-sm btn-acc-del"  data-id="${ac.id_accion}" title="Eliminar">🗑</button>
+        </td>
       </tr>
     `).join('');
-  } catch { showErrorToast('No se pudieron cargar las auditorías'); }
+  } catch (e) {
+    console.error(e);
+    showErrorToast('No se pudieron cargar las acciones correctivas');
+  }
 }
+
+
+function abrirModalAccionNueva() {
+  document.getElementById('accionModalTitle').textContent = 'Nueva Acción Correctiva';
+  document.getElementById('acc_id').value = '';
+  escribirAccionForm({});
+  new bootstrap.Modal(document.getElementById('accionModal')).show();
+}
+
+function abrirModalAccionEditar(ac) {
+  document.getElementById('accionModalTitle').textContent = 'Editar Acción Correctiva';
+  document.getElementById('acc_id').value = ac.id_accion;
+  escribirAccionForm(ac);
+  new bootstrap.Modal(document.getElementById('accionModal')).show();
+}
+
+function abrirModalAccionVer(ac) {
+  document.getElementById('accionModalTitle').textContent = 'Ver Acción Correctiva';
+  document.getElementById('acc_id').value = ac.id_accion;
+  escribirAccionForm(ac);
+  new bootstrap.Modal(document.getElementById('accionModal')).show();
+}
+
+async function onSubmitAccion(e) {
+  e.preventDefault();
+  const id = document.getElementById('acc_id').value.trim();
+  const payload = leerAccionForm();
+
+  try {
+    if (!id) {
+      await postJSON(`${API}/acciones`, payload);
+    } else {
+      await putJSON(`${API}/acciones/${id}`, payload);
+    }
+    bootstrap.Modal.getInstance(document.getElementById('accionModal')).hide();
+    await cargarAcciones();
+    await cargarMetricas();
+  } catch (err) {
+    console.error(err);
+    alert('No se pudo guardar la acción correctiva');
+  }
+}
+
+function initTablaAccionesActions() {
+  const tbody = document.querySelector('#tablaAcciones tbody');
+  if (!tbody) return;
+
+  tbody.addEventListener('click', async (e) => {
+    const btn = e.target.closest('button');
+    if (!btn) return;
+
+    const id = Number(btn.dataset.id);
+    const ac = __accionesCache.find(a => a.id_accion === id);
+    if (!ac) return;
+
+    if (btn.classList.contains('btn-acc-view')) {
+      abrirModalAccionVer(ac);
+      return;
+    }
+
+    if (btn.classList.contains('btn-acc-edit')) {
+      abrirModalAccionEditar(ac);
+      return;
+    }
+
+    if (btn.classList.contains('btn-acc-del')) {
+      if (!confirm('¿Eliminar esta acción correctiva?')) return;
+      try {
+        await del(`${API}/acciones/${id}`);
+        await cargarAcciones();
+        await cargarMetricas();
+      } catch (err) {
+        console.error(err);
+        alert('No se pudo eliminar la acción correctiva');
+      }
+    }
+  });
+}
+
+/* =========================
+   Auditorías recientes (Dashboard)
+   ========================= */
 async function cargarAuditoriasRecientes() {
   const tbody = document.querySelector('#tablaAuditoriasRecientes tbody');
   if (!tbody) return;
@@ -544,29 +812,6 @@ async function cargarAuditoriasRecientes() {
       </tr>
     `).join('');
   } catch { showErrorToast('No se pudieron cargar las auditorías recientes'); }
-}
-async function cargarAcciones() {
-  const tbody = document.querySelector('#tablaAcciones tbody');
-  if (!tbody) return;
-  try {
-    const rows = await getJSON(`${API}/acciones`);
-    if (!rows) return;
-    tbody.innerHTML = rows.map(ac => `
-      <tr>
-        <td>${safe(ac.codigo)}</td>
-        <td>${safe(ac.origen)}</td>
-        <td>${safe(ac.descripcion)}</td>
-        <td>${safe(ac.responsable)}</td>
-        <td>${formatDate(ac.fecha_limite)}</td>
-        <td><span class="${badgeClass(ac.estado)}">${safe(ac.estado)}</span></td>
-        <td class="text-end">
-          <button class="btn btn-info btn-sm" data-codigo="${safe(ac.codigo)}">👁</button>
-          <button class="btn btn-warning btn-sm" data-id="${ac.id_accion}">✏️</button>
-          <button class="btn btn-danger btn-sm" data-id="${ac.id_accion}">🗑</button>
-        </td>
-      </tr>
-    `).join('');
-  } catch { showErrorToast('No se pudieron cargar las acciones correctivas'); }
 }
 
 /* =========================
@@ -593,14 +838,29 @@ document.addEventListener('DOMContentLoaded', () => {
   if (formDoc) formDoc.addEventListener('submit', onSubmitDocumento);
   initTablaDocumentosActions();
 
+  // Auditorías
+  const btnNuevaAud = document.getElementById('btnNuevaAuditoria');
+  if (btnNuevaAud) btnNuevaAud.addEventListener('click', abrirModalAuditoriaNueva);
+  const formAud = document.getElementById('formAuditoria');
+  if (formAud) formAud.addEventListener('submit', onSubmitAuditoria);
+  initTablaAuditoriasActions();
+
+  // Acciones correctivas
+  // Acciones Correctivas
+  const btnNuevaAccion = document.getElementById('btnNuevaAccion');
+  if (btnNuevaAccion) btnNuevaAccion.addEventListener('click', abrirModalAccionNueva);
+
+  const formAccion = document.getElementById('formAccion');
+  if (formAccion) formAccion.addEventListener('submit', onSubmitAccion);
+
+  initTablaAccionesActions();
+
   // Indicadores
   const btnNuevoIndicador = document.getElementById('btnNuevoIndicador');
   if (btnNuevoIndicador) btnNuevoIndicador.addEventListener('click', abrirModalIndicadorNuevo);
   const formIndicador = document.getElementById('formIndicador');
   if (formIndicador) formIndicador.addEventListener('submit', onSubmitIndicador);
   initTablaIndicadoresActions();
-
-  // Exportar Indicadores a PDF
   const btnExp = document.getElementById('btnExportIndicadores');
   if (btnExp) btnExp.addEventListener('click', exportIndicadoresPDF);
 
